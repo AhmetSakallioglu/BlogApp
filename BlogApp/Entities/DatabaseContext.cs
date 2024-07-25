@@ -9,5 +9,7 @@ namespace BlogApp.Entities
 		}
 
 		public DbSet<User> Users { get; set; }
+		public DbSet<Post> Post { get; set; }
+		public DbSet<UserPost> UserPost { get; set; }
 	}
 }

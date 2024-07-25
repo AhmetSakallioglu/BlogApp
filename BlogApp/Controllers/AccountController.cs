@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NETCore.Encrypt.Extensions;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
 namespace BlogApp.Controllers
@@ -117,7 +118,87 @@ namespace BlogApp.Controllers
             return hashed;
         }
 
-        public async Task<IActionResult> Logout()
+        public IActionResult Profile()
+        {
+            ProfileInfoLoader();
+
+            return View();
+        }
+
+        private void ProfileInfoLoader()
+        {
+            Guid userid = new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            User user = _databaseContext.Users.SingleOrDefault(x => x.Id == userid);
+
+			ViewData["fullname"] = user.FullName;
+			ViewData["ProfileImage"] = user.ProfileImageFileName;
+        }
+
+		[HttpPost]
+		public IActionResult ProfileChangeFullName([Required][StringLength(50)] string? fullname)
+		{
+			if (ModelState.IsValid)
+			{
+				Guid userid = new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier));
+				User user = _databaseContext.Users.SingleOrDefault(x => x.Id == userid);
+
+				user.FullName = fullname;
+				_databaseContext.SaveChanges();
+
+				ViewData["result"] = "FullNameChanged";
+
+			}
+			ProfileInfoLoader();
+			return View("Profile");
+		}
+
+		[HttpPost]
+		public IActionResult ProfileChangePassword([Required][MinLength(6)][MaxLength(16)] string? password)
+		{
+			if (ModelState.IsValid)
+			{
+				Guid userid = new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier));
+				User user = _databaseContext.Users.SingleOrDefault(x => x.Id == userid);
+
+				string hashedPassword = DoMD5HashedString(password);
+
+				user.Password = hashedPassword;
+				_databaseContext.SaveChanges();
+
+				ViewData["result"] = "PasswordChanged";
+			}
+			ProfileInfoLoader();
+			return View("Profile");
+		}
+
+		[HttpPost]
+		public IActionResult ProfileChangeImage([Required] IFormFile file)
+		{
+			if (ModelState.IsValid)
+			{
+				Guid userid = new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier));
+				User user = _databaseContext.Users.SingleOrDefault(x => x.Id == userid);
+
+				string fileName = $"p_{userid}.jpg";
+				Stream stream = new FileStream($"wwwroot/uploads/{fileName}", FileMode.OpenOrCreate);
+
+				file.CopyTo(stream);
+
+				stream.Close();
+				stream.Dispose();
+
+				user.ProfileImageFileName = fileName;
+				_databaseContext.SaveChanges();
+
+				return RedirectToAction(nameof(Profile));
+
+			}
+			ProfileInfoLoader();
+			return View("Profile");
+		}
+
+
+		public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction(nameof(Login));
