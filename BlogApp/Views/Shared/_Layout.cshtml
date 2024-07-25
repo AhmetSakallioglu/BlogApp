@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - BlogApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link href="~/css/font-awesome/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/BlogApp.styles.css" asp-append-version="true" />
 </head>
 <body>
@@ -25,6 +26,24 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item btn btn-danger">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Logout">Çıkış Yap</a>
+                            </li>
+
+                        }
+                        else
+                        {
+                            <li class="nav-item btn btn-primary">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Register">Kayıt Ol</a>
+                            </li>
+                            <li class="nav-item btn btn-success">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Login">Giriş Yap</a>
+                            </li>
+                        }
+
                     </ul>
                 </div>
             </div>

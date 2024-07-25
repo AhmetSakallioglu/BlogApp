@@ -1,7 +1,29 @@
+using BlogApp.Entities;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<DatabaseContext>(opts =>
+{
+	opts.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+builder.Services
+				.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+				.AddCookie(opts =>
+				{
+					opts.Cookie.Name = ".sauyemek.auth";
+					opts.ExpireTimeSpan = TimeSpan.FromHours(6);
+					opts.SlidingExpiration = false;
+					opts.LoginPath = "/Account/Login";
+					opts.LogoutPath = "/Account/logout";
+					opts.AccessDeniedPath = "/Home/AccessDenied";
+				});
+
 
 var app = builder.Build();
 
@@ -18,6 +40,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
