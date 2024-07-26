@@ -38,7 +38,7 @@ namespace BlogApp.Controllers
 			{
 				string hashedPassword = DoMD5HashedString(model.Password);
 
-				User user = await _databaseContext.Users.SingleOrDefaultAsync(x => x.Username.ToLower() == model.Username.ToLower() && x.Password == hashedPassword, cancellationToken);
+				User user = await _databaseContext.User.SingleOrDefaultAsync(x => x.Username.ToLower() == model.Username.ToLower() && x.Password == hashedPassword, cancellationToken);
 
 				if(user != null)
 				{
@@ -81,7 +81,7 @@ namespace BlogApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (await _databaseContext.Users.AnyAsync(x => x.Username.ToLower() == model.Username.ToLower(), cancellationToken))
+                if (await _databaseContext.User.AnyAsync(x => x.Username.ToLower() == model.Username.ToLower(), cancellationToken))
                 {
                     ModelState.AddModelError(nameof(model.Username), "Username is already exists.");
                     return View(model);
@@ -95,7 +95,7 @@ namespace BlogApp.Controllers
                     Password = hashedPassword
                 };
 
-                _databaseContext.Users.Add(user);
+                _databaseContext.User.Add(user);
                 int affectedRowCount = await _databaseContext.SaveChangesAsync();
 
                 if (affectedRowCount == 0)
@@ -128,7 +128,7 @@ namespace BlogApp.Controllers
         private void ProfileInfoLoader()
         {
             Guid userid = new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            User user = _databaseContext.Users.SingleOrDefault(x => x.Id == userid);
+            User user = _databaseContext.User.SingleOrDefault(x => x.Id == userid);
 
 			ViewData["fullname"] = user.FullName;
 			ViewData["ProfileImage"] = user.ProfileImageFileName;
@@ -140,7 +140,7 @@ namespace BlogApp.Controllers
 			if (ModelState.IsValid)
 			{
 				Guid userid = new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier));
-				User user = _databaseContext.Users.SingleOrDefault(x => x.Id == userid);
+				User user = _databaseContext.User.SingleOrDefault(x => x.Id == userid);
 
 				user.FullName = fullname;
 				_databaseContext.SaveChanges();
@@ -158,7 +158,7 @@ namespace BlogApp.Controllers
 			if (ModelState.IsValid)
 			{
 				Guid userid = new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier));
-				User user = _databaseContext.Users.SingleOrDefault(x => x.Id == userid);
+				User user = _databaseContext.User.SingleOrDefault(x => x.Id == userid);
 
 				string hashedPassword = DoMD5HashedString(password);
 
@@ -177,7 +177,7 @@ namespace BlogApp.Controllers
 			if (ModelState.IsValid)
 			{
 				Guid userid = new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier));
-				User user = _databaseContext.Users.SingleOrDefault(x => x.Id == userid);
+				User user = _databaseContext.User.SingleOrDefault(x => x.Id == userid);
 
 				string fileName = $"p_{userid}.jpg";
 				Stream stream = new FileStream($"wwwroot/uploads/{fileName}", FileMode.OpenOrCreate);

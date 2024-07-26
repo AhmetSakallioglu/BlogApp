@@ -2,9 +2,9 @@
 
 namespace BlogApp.Entities
 {
-	[Table("UserPost")]
+	[Table("PostUsers")]
 
-	public class UserPost
+	public class PostUser
 	{
 		public int Id { get; set; }
 		public Guid UserId { get; set; }

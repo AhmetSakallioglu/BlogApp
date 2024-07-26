@@ -2,18 +2,21 @@
 
 namespace BlogApp.Entities
 {
-	[Table("UserPost")]
+	[Table("PostImages")]
 
-	public class UserPost
+	public class PostImage
 	{
 		public int Id { get; set; }
-		public Guid UserId { get; set; }
 		public int PostId { get; set; }
+		public int ImageId { get; set; }
 
-		[ForeignKey(nameof(UserId))]
-		public User User { get; set; }
+
 
 		[ForeignKey(nameof(PostId))]
 		public Post Post { get; set; }
+
+		[ForeignKey(nameof(ImageId))]
+		public Image Image { get; set; }
+
 	}
 }

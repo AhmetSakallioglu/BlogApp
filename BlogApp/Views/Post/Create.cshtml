@@ -1,0 +1,37 @@
+﻿@model CreatePostViewModel
+
+@{
+    ViewBag.Title = "Create Post";
+}
+
+<h2>Create Post</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="Baslık">Başlık</label>
+        <input type="text" class="form-control" id="Baslık" name="Baslık" required />
+    </div>
+    <div class="form-group">
+        <label for="Icerik">İçerik</label>
+        <textarea class="form-control" id="Icerik" name="Icerik" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="IsActive">Aktif mi?</label>
+        <input type="checkbox" id="IsActive" name="IsActive" />
+    </div>
+    <div class="form-group">
+        <label for="Tags">Etiketler</label>
+        <select multiple class="form-control" id="Tags" name="TagIds">
+            @foreach (var tag in ViewBag.Tags)
+            {
+                <option value="@tag.Id">@tag.Name</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="ImageUrls">Görüntü URL'leri</label>
+        <input type="text" class="form-control" id="ImageUrls" name="ImageUrls" />
+        <!-- Birden fazla URL için ekleme düğmesi ekleyebilirsiniz -->
+    </div>
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+</form>

@@ -1,0 +1,55 @@
+﻿@model List<TagViewModel>
+@{
+    ViewData["Title"] = "Etiketler";
+}
+
+<div class="row mb-3">
+    <div class="col">
+        <h1 class="display-4">Etiketler</h1>
+    </div>
+    <div class="col-6 d-flex justify-content-end align-items-center">
+        <a asp-action="Create" class="btn btn-primary btn-sm"><i class="fa fa-plus me-2"></i>Yeni Etiket</a>
+    </div>
+</div>
+
+<div class="row tableduzen mb-3">
+    <div class="col">
+        <table class="table table-hover table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col" class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var (index, tag) in Model.Select((value, i) => (i + 1, value)))
+                    {
+                        <tr>
+                            <th scope="row">@index</th>
+                            <td>@tag.Name</td>
+                            <td class="text-end">
+                                <a asp-action="Edit" asp-route-id="@tag.Id" class="btn btn-mysuccess btn-sm text-light">
+                                    <i class="fa fa-edit me-2"></i>Edit
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@tag.Id"
+                                   onclick="return confirm('Bu etiketi silmek istiyor musunuz ? : @tag.Name ?')"
+                                   class="btn btn-danger btn-sm">
+                                    <i class="fa fa-trash me-2"></i>Sil
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-center">Gösterilecek etiket yok.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

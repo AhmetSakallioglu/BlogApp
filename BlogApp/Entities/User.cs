@@ -30,5 +30,8 @@ namespace BlogApp.Entities
 		[Required]
 		[StringLength(50)]
 		public string Role { get; set; } = "user";
+
+		public ICollection<PostUser> PostUsers { get; set; }
+
 	}
 }

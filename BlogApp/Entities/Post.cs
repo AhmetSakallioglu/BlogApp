@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.Entities
 {
+	[Table("Posts")]
+
 	public class Post
 	{
 		[Key]
@@ -20,13 +22,14 @@ namespace BlogApp.Entities
 		[StringLength(255)]
 		public string ContentUrl { get; set; }
 
-		[Required]
-		[StringLength(255)]
-		public string ImageUrl { get; set; }
+		public string CreatedBy { get; set; }
+
+		public DateTime Date { get; set; } = DateTime.Now;
 
 		public bool IsActive { get; set; } = false;
 
-		public ICollection<UserPost> UserPost { get; set; }
+		public ICollection<PostImage> PostImage { get; set; }
+		public ICollection<PostTag> PostTag { get; set; }
 
 	}
 }

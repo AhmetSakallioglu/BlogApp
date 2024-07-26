@@ -1,0 +1,40 @@
+﻿@model TagViewModel
+
+<div>
+    <div class="d-flex align-items-center justify-content-center js-fullheight">
+        <div class="col-3">
+            <div class="login-box">
+                <div class="card card-outline card-primary">
+                    <div class="card-header text-center">
+                        <b>Etiket Ekle</b>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            <div asp-validation-summary="All" class="text-danger small"></div>
+
+                            <div class="mb-3">
+                                <div class="input-group">
+                                    <input asp-for="Name" class="form-control" placeholder="Etiket Ekle" />
+
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-user"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-4 ms-auto">
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-success">Ekle</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

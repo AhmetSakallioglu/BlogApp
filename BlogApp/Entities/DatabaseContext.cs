@@ -8,8 +8,12 @@ namespace BlogApp.Entities
 		{
 		}
 
-		public DbSet<User> Users { get; set; }
+		public DbSet<User> User { get; set; }
 		public DbSet<Post> Post { get; set; }
-		public DbSet<UserPost> UserPost { get; set; }
+		public DbSet<PostUser> PostUser { get; set; }
+		public DbSet<Tag> Tag { get; set; }
+		public DbSet<PostTag> PostTag { get; set; }
+		public DbSet<Image> Image { get; set; }
+		public DbSet<PostImage> PostImage { get; set; }
 	}
 }
