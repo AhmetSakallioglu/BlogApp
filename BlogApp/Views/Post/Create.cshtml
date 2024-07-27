@@ -6,22 +6,22 @@
 
 <h2>Create Post</h2>
 
-<form asp-action="Create" method="post">
+<form asp-action="Create" method="post" enctype="multipart/form-data">
     <div class="form-group">
-        <label for="Baslık">Başlık</label>
-        <input type="text" class="form-control" id="Baslık" name="Baslık" required />
+        <label for="Title">Başlık</label>
+        <input type="text" class="form-control" id="Title" name="Title" required />
     </div>
     <div class="form-group">
-        <label for="Icerik">İçerik</label>
-        <textarea class="form-control" id="Icerik" name="Icerik" required></textarea>
+        <label for="Content">İçerik</label>
+        <textarea class="form-control" id="Content" name="Content" required></textarea>
     </div>
     <div class="form-group">
         <label for="IsActive">Aktif mi?</label>
         <input type="checkbox" id="IsActive" name="IsActive" />
     </div>
     <div class="form-group">
-        <label for="Tags">Etiketler</label>
-        <select multiple class="form-control" id="Tags" name="TagIds">
+        <label for="TagId">Etiketler</label>
+        <select multiple class="form-control" id="TagId" name="TagId">
             @foreach (var tag in ViewBag.Tags)
             {
                 <option value="@tag.Id">@tag.Name</option>
@@ -29,9 +29,8 @@
         </select>
     </div>
     <div class="form-group">
-        <label for="ImageUrls">Görüntü URL'leri</label>
-        <input type="text" class="form-control" id="ImageUrls" name="ImageUrls" />
-        <!-- Birden fazla URL için ekleme düğmesi ekleyebilirsiniz -->
+        <label for="Images">Resimler</label>
+        <input type="file" class="form-control" id="Images" name="Images" multiple />
     </div>
     <button type="submit" class="btn btn-primary">Kaydet</button>
 </form>
