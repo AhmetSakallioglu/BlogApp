@@ -26,17 +26,29 @@
 
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item btn btn-danger">
+                            <li class="nav-item btn btn-primary me-2">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Profile">Profil</a>
+                            </li>
+                            
+
+                            @if (User.IsInRole("admin"))
+                            {
+                                <li class="nav-item btn btn-success me-2">
+                                    <a class="nav-link text-light" asp-area="admin" asp-controller="User" asp-action="Index">Kullanıcılar</a>
+                                </li>
+                            }
+
+                            <li class="nav-item btn btn-danger me-2">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Logout">Çıkış Yap</a>
                             </li>
 
                         }
                         else
                         {
-                            <li class="nav-item btn btn-primary">
+                            <li class="nav-item btn btn-primary me-2">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Register">Kayıt Ol</a>
                             </li>
-                            <li class="nav-item btn btn-success">
+                            <li class="nav-item btn btn-success me-2">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Login">Giriş Yap</a>
                             </li>
                         }
